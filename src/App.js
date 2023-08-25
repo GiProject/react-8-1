@@ -1,23 +1,21 @@
-import logo from './logo.svg';
+import { useState }  from 'react'
 import './App.css';
+import List from './Components/List';
+import Detail from './Components/Details';
+import useFetch from './Hooks/useFetch';
+
 
 function App() {
+  const initialUrl= "https://raw.githubusercontent.com/netology-code/ra16-homeworks/master/hooks-context/use-effect/data/users.json";
+  const [item, setItem] = useState(null);
+  const [{data, isLoading, hasError}] = useFetch(initialUrl);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      { 
+        isLoading ? <h2>loading...</h2> : <List list={data} item={item} setItem={setItem} />
+      }   
+        <Detail item={item}  /> 
     </div>
   );
 }
